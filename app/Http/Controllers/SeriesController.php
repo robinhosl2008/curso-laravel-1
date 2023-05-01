@@ -28,11 +28,28 @@ class SeriesController extends Controller
 
     public function store(Request $request)
     {
-        $name = $request->input('name');
+        $name = $request->name;
         
-        $serie = new Serie();
-        $serie->name = $name;
-        $serie->save();
+        // $serie = new Serie();
+        // $serie->name = $name;
+        // $serie->save();
+
+        /**
+         * Usando a propriedade 'mass assignment (atribuição em massa)' deve 
+         * adicionar ao model a linha 'private $fillable = ['name'];'. Passamos 
+         * um array para a variável com o nome dos campos que ele deverá aceitar. 
+         * 
+         * Nesse caso, poderia estar usando essa propriedade passando por
+         * parâmetro '$request->all()'. Como não considero tão verboso para
+         * que outros desenvolvedores possam dar manutenção decidi deixar dessa
+         * forma como abaixo. Passando cada valor. Dessa forma acredito que
+         * não será necessário ir até a model e ver o que está recebendo.
+         * O valor passado deve ser um array.
+         * 
+         * Existem também o '$request->only(['name', [...])' e outros. Olhe a
+         * documentação para mais.
+         */
+        Serie::create(['name' => $name]);
         
         return redirect('/series');
     }
