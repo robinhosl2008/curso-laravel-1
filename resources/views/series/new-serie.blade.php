@@ -1,12 +1,12 @@
 <x-layout title="Nova Série">
-    <form action="/series/salvar" class="form form-group" method="post">
+    <form action="{{ route('series.salvar') }}" class="form form-group" method="post">
         @csrf
         <div class="mb-3">
             <x-form.label for="name" class="form-label" text="Nome" />
             <x-form.input type="text" id="name" name="name" class="form-control" value="" />
         </div>
         <div class="">
-            <a href="/series" class="btn btn-secondary">Voltar</a>
+            <a href="{{ route('series.listar') }}" class="btn btn-secondary">Voltar</a>
             <x-form.button id="enviar" class="btn btn-primary" text="Enviar" />
         </div>
     </form>

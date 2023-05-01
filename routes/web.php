@@ -19,8 +19,9 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::redirect('/', '/series', 302);
-Route::prefix('series')->group(function() {
-    Route::get('/', [SeriesController::class, 'index'])->name('series-lista');
-    Route::get('/adicionar', [SeriesController::class, 'create'])->name('series-criar');
-    Route::post('/salvar', [SeriesController::class, 'store'])->name('series-salvar');
+
+Route::controller(SeriesController::class)->group(function() {
+    Route::get('/series', 'index')->name('series.listar');
+    Route::get('/series/adicionar', 'create')->name('series.adicionar');
+    Route::post('/series/salvar', 'store')->name('series.salvar');
 });

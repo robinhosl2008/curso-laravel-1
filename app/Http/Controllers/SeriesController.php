@@ -14,7 +14,9 @@ class SeriesController extends Controller
 {
     public function index()
     {
-        $series = Serie::all();
+        $series = Serie::select()
+            ->orderBy('name')
+            ->get();
 
         $title = "Séries e Filmes";
 

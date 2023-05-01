@@ -1,5 +1,5 @@
 <x-layout :title="$title" :series="$series">
-    <a href="/series/adicionar">
+    <a href="{{ route('series.adicionar') }}">
         <x-form.button id="" class="btn btn-primary mb-2" text="Adicionar uma nova série"/>
     </a>
     
