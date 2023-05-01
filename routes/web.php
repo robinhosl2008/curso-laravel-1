@@ -22,4 +22,5 @@ Route::redirect('/', '/series', 302);
 Route::prefix('series')->group(function() {
     Route::get('/', [SeriesController::class, 'index'])->name('series-lista');
     Route::get('/adicionar', [SeriesController::class, 'create'])->name('series-criar');
+    Route::post('/salvar', [SeriesController::class, 'store'])->name('series-salvar');
 });
