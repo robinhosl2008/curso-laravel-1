@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <script type="text/javascript" src="{{ asset('js/app.js') }}" ></script>
 
-        <title>{{ $title }} - Controle de séries</title>
+        <title>{{ __('messages.app_name') }} - Controle de séries</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -26,6 +26,16 @@
     <body class="antialiased">
         <div class="container">
             <h1>{{ $title }}</h1>
+            
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
             {{ $slot }}
         </div>

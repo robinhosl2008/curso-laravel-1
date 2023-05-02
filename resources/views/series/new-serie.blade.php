@@ -3,7 +3,8 @@
         @csrf
         <div class="mb-3">
             <x-form.label for="name" class="form-label" text="Nome" />
-            <x-form.input type="text" id="name" name="name" class="form-control" value="" />
+            <x-form.input type="text" id="name" name="name" class="form-control" value="{{ $name }}" />
+            <x-form.input type="hidden" id="id" name="id" class="" value="{{ $id }}" />
         </div>
         <div class="">
             <a href="{{ route('series.listar') }}" class="btn btn-secondary">Voltar</a>

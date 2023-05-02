@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SeriesFormRequest;
 use App\Models\Serie;
 use DomainException;
 use Illuminate\Http\Request;
@@ -12,25 +13,40 @@ use Illuminate\View\View;
 
 class SeriesController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $series = Serie::select()
             ->orderBy('name')
             ->get();
 
         $title = "Séries e Filmes";
+        $msgSucesso = $request->session()->get('msgSucesso');
+        $request->session()->forget('msgSucesso');
 
-        return view('series.index', compact('series', 'title'));
+        return view('series.index', compact('series', 'title'))->with('msgSucesso', $msgSucesso);
     }
 
     public function create()
     {
-        return view('series.new-serie');
+        return view('series.new-serie', ['name' => '', 'id' => '']);
     }
 
     public function store(Request $request)
     {
-        $name = $request->name;
+        $request->validate([
+            'name' => ['required', 'min:3']
+        ]);
+
+        if ($request->id) {
+            $serie = Serie::find($request->id);
+            $nomeAntigo = $serie->name;
+            $serie->name = $request->name;
+            $serie->save();
+            
+            return redirect('/series')->with('msgSucesso', "Série atualizada de '{$nomeAntigo}' para '{$serie->name}'!");
+        }
+
+        // $name = $request->name;
         
         // $serie = new Serie();
         // $serie->name = $name;
@@ -51,8 +67,26 @@ class SeriesController extends Controller
          * Existem também o '$request->only(['name', [...])' e outros. Olhe a
          * documentação para mais.
          */
-        Serie::create(['name' => $name]);
+        $serie = Serie::create(['name' => $request->name]);
+        // $request->session()->put('msgSucesso', "Série '{$serie->name}' adicionada com sucesso!");
         
-        return redirect('/series');
+        return redirect('/series')->with('msgSucesso', "Série '{$serie->name}' adicionada com sucesso!");
+    }
+
+    public function editar(Serie $serie, Request $request)
+    {
+        return view('series.new-serie', ['name' => $serie->name, 'id' => $serie->id]);
+        // dd($request->name);
+        // $serie->name = 'A Série 1';
+        // dd($serie->name);
+        // $serie->update(['name' => $serie->name]);
+    }
+
+    public function destroy(Serie $serie, Request $request)
+    {
+        $serie->delete();
+        // $request->session()->put('msgSucesso', "Série '{$serie->name}' removida com sucesso!");
+
+        return redirect('/series')->with('msgSucesso', "Série '{$serie->name}' removida com sucesso!");
     }
 }

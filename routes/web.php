@@ -24,4 +24,7 @@ Route::controller(SeriesController::class)->group(function() {
     Route::get('/series', 'index')->name('series.listar');
     Route::get('/series/adicionar', 'create')->name('series.adicionar');
     Route::post('/series/salvar', 'store')->name('series.salvar');
+    Route::delete('/series/remover/{serie}', 'destroy')->whereNumber('serie')->name('series.remover');
+    Route::post('/series/editar/{serie}', 'editar')->whereNumber('serie')->name('series.editar');
 });
+
