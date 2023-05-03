@@ -15,9 +15,11 @@ class SeriesController extends Controller
 {
     public function index(Request $request)
     {
-        $series = Serie::select()
-            ->orderBy('name')
-            ->get();
+        // $series = Serie::select()
+        //     ->orderBy('name')
+        //     ->get();]
+
+        $series = Serie::all();
 
         $title = "Séries e Filmes";
         $msgSucesso = $request->session()->get('msgSucesso');
@@ -76,10 +78,6 @@ class SeriesController extends Controller
     public function editar(Serie $serie, Request $request)
     {
         return view('series.new-serie', ['name' => $serie->name, 'id' => $serie->id]);
-        // dd($request->name);
-        // $serie->name = 'A Série 1';
-        // dd($serie->name);
-        // $serie->update(['name' => $serie->name]);
     }
 
     public function destroy(Serie $serie, Request $request)
