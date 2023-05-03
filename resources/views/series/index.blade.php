@@ -15,7 +15,7 @@
                 {{ $serie->name }}
 
                 <div class="d-flex">
-                    <form method="post" action="{{ route('series.editar', $serie->id) }}">
+                    <form method="post" class="mr-2" action="{{ route('series.editar', $serie->id) }}">
                         @csrf
                         <button class="btn btn-info btn-sm">Editar</button>
                     </form>
