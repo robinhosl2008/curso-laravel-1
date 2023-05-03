@@ -60,21 +60,26 @@ class SeriesController extends Controller
          * e outros. Olhe a documentação para mais.
          */
         $serie = Serie::create($request->all());
-        // dd($serie->id);
     
+        $seasons = [];
         for ($i = 1; $i <= $request->seasonsQtd; $i++) {
-            $season = Season::create([
+            $seasons[] = [
                 'number' => $i,
                 'series_id' => $serie->id
-            ]);
+            ];
+        }
+        Season::insert($seasons);
 
+        $episodes = [];
+        foreach ($serie->seasons as $season) {
             for ($x = 1; $x <= $request->episodesQtd; $x++) {
-                Episode::create([
+                $episodes[] = [
                     'number' => $x,
                     'season_id' => $season->id
-                ]);
+                ];
             }
         }
+        Episode::insert($episodes);
 
         // $request->session()->put('msg', "Série '{$serie->name}' adicionada com sucesso!");
         
@@ -82,8 +87,9 @@ class SeriesController extends Controller
         return redirect('/series')->with('msg', "Série '{$serie->name}' adicionada com sucesso!");
     }
 
-    public function edit(Serie $serie)
+    public function edit(Request $request)
     {
+        $serie = Serie::find($request->id);
         return view('series.form-editar', ['name' => $serie->name, 'id' => $serie->id]);
     }
 

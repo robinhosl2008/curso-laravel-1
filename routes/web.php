@@ -24,8 +24,8 @@ Route::controller(SeriesController::class)->group(function() {
     Route::get('/series', 'index')->name('series.listar');
     Route::get('/series/adicionar', 'create')->name('series.form-adicionar');
     Route::post('/series/salvar-novo', 'storeNew')->name('series.salvar-novo');
-    Route::post('/series/editar/{serie}', 'edit')->whereNumber('serie')->name('series.form-editar');
+    Route::post('/series/editar', 'edit')->name('series.form-editar');
     Route::post('/series/salvar-editado', 'storeEdited')->name('series.salvar-editado');
-    Route::delete('/series/remover/{serie}', 'destroy')->whereNumber('serie')->name('series.remover');
+    Route::delete('/series/remover/{serie}', 'destroy')->name('series.remover');
 });
 

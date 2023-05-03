@@ -11,7 +11,7 @@ class Serie extends Model
     use HasFactory;
     protected $fillable = ['name'];
 
-    public function temporadas()
+    public function seasons()
     {
         /**  
          * Uma série pode ou não ter uma ou n temporadas.
