@@ -1,11 +1,11 @@
 <x-layout :title="$title" :series="$series">
-    <a href="{{ route('series.adicionar') }}">
+    <a href="{{ route('series.form-adicionar') }}">
         <x-form.button id="" class="btn btn-primary mb-2" text="Adicionar uma nova série"/>
     </a>
 
-    @isset($msgSucesso)
+    @isset($msg)
     <div class="alert alert-success">
-        {{ $msgSucesso }}
+        {{ $msg }}
     </div>
     @endisset
     
@@ -15,7 +15,7 @@
                 {{ $serie->name }}
 
                 <div class="d-flex">
-                    <form method="post" class="mr-2" action="{{ route('series.editar', $serie->id) }}">
+                    <form method="post" class="mr-2" action="{{ route('series.form-editar', $serie->id) }}">
                         @csrf
                         <button class="btn btn-info btn-sm">Editar</button>
                     </form>

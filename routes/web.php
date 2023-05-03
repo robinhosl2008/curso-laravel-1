@@ -22,9 +22,10 @@ Route::redirect('/', '/series', 302);
 
 Route::controller(SeriesController::class)->group(function() {
     Route::get('/series', 'index')->name('series.listar');
-    Route::get('/series/adicionar', 'create')->name('series.adicionar');
-    Route::post('/series/salvar', 'store')->name('series.salvar');
+    Route::get('/series/adicionar', 'create')->name('series.form-adicionar');
+    Route::post('/series/salvar-novo', 'storeNew')->name('series.salvar-novo');
+    Route::post('/series/editar/{serie}', 'edit')->whereNumber('serie')->name('series.form-editar');
+    Route::post('/series/salvar-editado', 'storeEdited')->name('series.salvar-editado');
     Route::delete('/series/remover/{serie}', 'destroy')->whereNumber('serie')->name('series.remover');
-    Route::post('/series/editar/{serie}', 'editar')->whereNumber('serie')->name('series.editar');
 });
 
