@@ -3,19 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SeriesFormRequest;
-use App\Models\Episode;
-use App\Models\Season;
 use App\Models\Serie;
-use DomainException;
+use App\Repository\SerieRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 
 class SeriesController extends Controller
 {
+    public function __construct(private SerieRepository $repository) 
+    {}
+
     public function index(Request $request)
     {
         // $series = Serie::select()
@@ -59,27 +57,34 @@ class SeriesController extends Controller
          * Existem também o '$request->only(['name', [...]), Serie::create(['name' => $request->name])' 
          * e outros. Olhe a documentação para mais.
          */
-        $serie = Serie::create($request->all());
-    
-        $seasons = [];
-        for ($i = 1; $i <= $request->seasonsQtd; $i++) {
-            $seasons[] = [
-                'number' => $i,
-                'series_id' => $serie->id
-            ];
-        }
-        Season::insert($seasons);
+        // $serie = DB::transaction(function() use($request) {
+        //     $serie = Serie::create($request->all());
+        
+        //     $seasons = [];
+        //     for ($i = 1; $i <= $request->seasonsQtd; $i++) {
+        //         $seasons[] = [
+        //             'number' => $i,
+        //             'series_id' => $serie->id
+        //         ];
+        //     }
+        //     Season::insert($seasons);
 
-        $episodes = [];
-        foreach ($serie->seasons as $season) {
-            for ($x = 1; $x <= $request->episodesQtd; $x++) {
-                $episodes[] = [
-                    'number' => $x,
-                    'season_id' => $season->id
-                ];
-            }
-        }
-        Episode::insert($episodes);
+        //     $episodes = [];
+        //     foreach ($serie->seasons as $season) {
+        //         for ($x = 1; $x <= $request->episodesQtd; $x++) {
+        //             $episodes[] = [
+        //                 'number' => $x,
+        //                 'season_id' => $season->id
+        //             ];
+        //         }
+        //     }
+        //     Episode::insert($episodes);
+
+        //     return $serie;
+        // }, 5);
+
+        $serie = $this->repository->add($request);
+        
 
         // $request->session()->put('msg', "Série '{$serie->name}' adicionada com sucesso!");
         
@@ -99,17 +104,26 @@ class SeriesController extends Controller
             throw new InvalidParameterException("Houve um problema ao editar o registro.");
         }
 
-        $serie = Serie::find($request->id);
-        $nomeAntigo = $serie->name;
-        $serie->name = $request->name;
-        $serie->save();
+        $nomeAntigo = '';
+        DB::transaction(function() use($request, &$nomeAntigo, &$serie) {
+            $serie = $serie->find($request->id);
+            $nomeAntigo = $serie->name;
+            $serie->name = $request->name;
+            $serie->save();
+        });
+
         
         return redirect('/series')->with('msg', "Série atualizada de '{$nomeAntigo}' para '{$serie->name}'!");
     }
 
-    public function destroy(Serie $serie, Request $request)
+    public function destroy(Serie $serie)
     {
-        $serie->delete();
+        $serieName = '';
+        DB::transaction(function() use(&$serieName, &$serie) {
+            $serieName = $serie->name;
+            $serie->delete();
+        });
+        
         // $request->session()->put('msg', "Série '{$serie->name}' removida com sucesso!");
 
         return redirect('/series')->with('msg', "Série '{$serie->name}' removida com sucesso!");
