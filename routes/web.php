@@ -36,5 +36,7 @@ Route::controller(SeasonsController::class)->group(function() {
 });
 
 Route::controller(EpisodesController::class)->group(function() {
-    Route::post('/series/{season}/episodes', 'index')->name('episodes.index');
+    Route::post('/series/season/{season}/episodes', 'index')->name('episodes.index');
+    Route::get('/series/season/{season}/episodes', 'index')->name('episodes.index-get');
+    Route::post('/series/season/episode/{episode}', 'check')->name('episodes.check');
 });
