@@ -9,8 +9,8 @@
                     </form>
                 </div>
 
-                <span class="bg-secundary">
-                    {{ $season->episodes->count() }}
+                <span class="" style="background-color: darkslategray; color: #fff; padding: 2px; border: 1px solid black; border-radius: 5px;">
+                    {{ $season->numberOfWatchedEpisodes() }}/{{ $season->episodes->count() }}
                 </span>
             </li>
         @endforeach
