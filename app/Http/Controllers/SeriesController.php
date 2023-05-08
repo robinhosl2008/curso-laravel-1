@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SeriesFormRequest;
 use App\Models\Serie;
 use App\Repository\SerieRepository;
+use Dotenv\Exception\ValidationException;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 
