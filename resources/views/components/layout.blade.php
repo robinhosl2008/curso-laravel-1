@@ -24,8 +24,20 @@
         </style>
     </head>
     <body class="antialiased">
+        <nav class="navbar navbar-light mb-3" style="background-color: #e3f2fd;">
+            <div class="container-fluid" style="margin: 0 1em;">
+                <a class="navbar-brand" href="{{ route('series.listar') }}">
+                <img src="/img/nextmodal.jpg" alt="" width="30" height="24" class="d-inline-block align-text-top">
+                NextModal
+                </a>
+                
+                @auth
+                <a href="{{ route('logout') }}" class="d-flex">Sair</a>
+                @endauth
+            </div>
+        </nav>
+
         <div class="container">
-            <h1>{{ $title }}</h1>
             
             @if ($errors->any())
                 <div class="alert alert-danger">

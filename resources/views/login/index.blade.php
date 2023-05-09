@@ -5,10 +5,10 @@
     </div>
     @endisset
     
-    <form method="post" class="form form-group w-25" action="{{ route('auth') }}" style="">
+    <form method="post" class="form form-group w-100 mt-5" action="{{ route('auth') }}">
         @csrf
 
-        <div>
+        <div class="w-50 m-auto">
             <div class="row">
                 <x-form.label for="email" class="form-label" text="E-mail" />
                 <x-form.input type="text" id="email" name="email" class="form-control" value="" />

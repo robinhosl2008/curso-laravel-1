@@ -29,6 +29,9 @@ Route::controller(LoginController::class)->group(function() {
         Route::get('/registry', 'registry')->name('registry');
         Route::post('/registry', 'register')->name('register');
     });
+    Route::prefix('logout')->group(function() {
+        Route::get('/', 'logout')->name('logout');
+    });
 });
 
 Route::redirect('/', '/series', 302);

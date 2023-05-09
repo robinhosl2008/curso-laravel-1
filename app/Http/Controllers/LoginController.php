@@ -42,6 +42,6 @@ class LoginController extends Controller
     {
         Auth::logout();
 
-        return to_route('login.index', ['title' => 'Login - Séries e Filmes']);
+        return to_route('login');
     }
 }
